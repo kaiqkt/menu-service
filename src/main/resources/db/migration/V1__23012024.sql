@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS menu_user (
 CREATE TABLE IF NOT EXISTS restaurant (
     id VARCHAR(26) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     delivery_fee DECIMAL NOT NULL,
@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS restaurant (
 
 CREATE TABLE IF NOT EXISTS category (
     id VARCHAR(26) PRIMARY KEY,
-    image VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     restaurant_id VARCHAR(255),
     FOREIGN KEY (restaurant_id) REFERENCES restaurant(id)
@@ -29,7 +28,6 @@ CREATE TABLE IF NOT EXISTS category (
 CREATE TABLE IF NOT EXISTS item (
     id VARCHAR(26) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    images TEXT NOT NULL,
     description TEXT NOT NULL,
     price DECIMAL NOT NULL,
     category_id VARCHAR(26),

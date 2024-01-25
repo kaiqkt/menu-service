@@ -144,6 +144,50 @@ paths:
         204:
           description: Item created successfully
 
+  /category/{restaurant_id}:
+    post:
+      tags:
+        - category
+      description: create a category
+      operationId: create
+      parameters:
+        - name: restaurant_id
+          in: path
+          description: Id of a specific restaurant
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.anon_category_v1+json:
+            schema:
+              $ref: '#/components/schemas/CategoryV1'
+      responses:
+        204:
+          description: Category created successfully
+    get:
+      tags:
+        - category
+      description: get all categories
+      operationId: findAll
+      parameters:
+        - name: restaurant_id
+          in: path
+          description: Id of a specific restaurant
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Category created successfully
+          content:
+            application/vnd.anon_category_v1+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryResponseV1'
+
 
 components:
   schemas:
@@ -202,7 +246,7 @@ components:
         price:
           type: BigDecimal
         category:
-          $ref: '#/components/schemas/CategoryV1'
+          $ref: '#/components/schemas/CategoryResponseV1'
       required:
         - name
         - description
@@ -214,6 +258,17 @@ components:
         name:
           type: string
       required:
+        - name
+
+    CategoryResponseV1:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
         - name
 
     ItemV1:

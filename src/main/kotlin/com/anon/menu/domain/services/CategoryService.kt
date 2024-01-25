@@ -1,12 +1,11 @@
 package com.anon.menu.domain.services
 
 import com.anon.menu.domain.entities.Category
-import com.anon.menu.domain.entities.Restaurant
+import com.anon.menu.domain.exceptions.CategoryNotFoundException
 import com.anon.menu.domain.repositories.CategoryRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CategoryService(
@@ -21,8 +20,12 @@ class CategoryService(
         logger.info("Category ${category.id} for restaurant ${category.restaurant.id} created successfully")
     }
 
-    fun findById(id: String) : Category? {
-        return repository.findById(id).getOrNull()
+    fun findByIdAndRestaurantId(id: String, restaurantId: String): Category? {
+        return repository.findByIdAndRestaurantId(id, restaurantId) ?: throw CategoryNotFoundException()
+    }
+
+    fun findAllByRestaurantId(restaurantId: String): List<Category> {
+        return repository.findAllByRestaurantId(restaurantId)
     }
 
     //update

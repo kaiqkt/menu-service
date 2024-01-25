@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CategoryRepository : JpaRepository<Category, String>
+interface CategoryRepository : JpaRepository<Category, String>{
+    fun findAllByRestaurantId(restaurantId: String): List<Category>
+    fun findByIdAndRestaurantId(id: String, restaurantId: String): Category?
+}

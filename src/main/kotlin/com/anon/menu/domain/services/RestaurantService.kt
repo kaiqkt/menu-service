@@ -29,6 +29,10 @@ class RestaurantService(
         return repository.findById(id).getOrNull() ?: throw RestaurantNotFoundException()
     }
 
+    fun findByIdAndUserId(id: String, userId: String): Restaurant{
+        return repository.findByIdAndUserId(id, userId) ?: throw RestaurantNotFoundException()
+    }
+
     //update
 
     fun deleteById(id: String) {

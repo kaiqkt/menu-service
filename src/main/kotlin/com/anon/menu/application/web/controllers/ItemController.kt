@@ -1,6 +1,7 @@
 package com.anon.menu.application.web.controllers
 
 import com.anon.menu.application.security.AUTHORIZE_USER
+import com.anon.menu.application.security.getUserId
 import com.anon.menu.application.web.dto.toDomain
 import com.anon.menu.domain.entities.Category
 import com.anon.menu.domain.services.CategoryService
@@ -20,8 +21,8 @@ class ItemController(
 ) : ItemApi {
     @PreAuthorize(AUTHORIZE_USER)
     override fun create(restaurantId: String, itemV1: ItemV1): ResponseEntity<Unit> {
-        val restaurant = restaurantService.findById(restaurantId)
-        val category = itemV1.categoryId?.let { categoryService.findById(it) }
+        val restaurant = restaurantService.findByIdAndUserId(restaurantId, getUserId())
+        val category = itemV1.categoryId?.let { categoryService.findByIdAndRestaurantId(it, restaurantId) }
         val item = itemV1.toDomain(category, restaurant)
 
         itemService.save(item)

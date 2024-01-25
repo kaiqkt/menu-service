@@ -12,7 +12,6 @@ import jakarta.persistence.OneToOne
 data class Category(
     @Id
     val id: String = ULID.random(),
-    val image: String,
     val name: String,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="restaurant_id")
