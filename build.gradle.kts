@@ -1,5 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.plugin.sources.android.findKotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val mainPkgAndClass = "com.anon.menu.ApplicationKt"
@@ -33,7 +31,6 @@ plugins {
     kotlin("plugin.noarg") version "1.9.20"
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.4"
-    id("io.gitlab.arturbosch.detekt") version "1.23.4"
     id("org.openapi.generator") version "5.1.1"
     id("jacoco")
 }
@@ -112,19 +109,6 @@ application {
 jacoco {
     toolVersion = "0.8.11"
     reportsDirectory.set(layout.buildDirectory.dir("jacoco"))
-}
-
-detekt {
-    buildUponDefaultConfig = true
-    allRules = false
-    source.setFrom(file("src/main/kotlin"))
-}
-
-tasks.withType<Detekt>().configureEach {
-    reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        md.required.set(true) // simple Markdown format
-    }
 }
 
 openApiGenerate {

@@ -17,3 +17,9 @@ spring:
 
 auth-signing-secret: secret
 access-token-expiration: 2
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    url: /api-docs.yml

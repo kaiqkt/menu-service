@@ -30,10 +30,6 @@ class RestaurantController(
     override fun findById(restaurantId: String): ResponseEntity<RestaurantResponseV1> {
         val restaurant = restaurantService.findById(restaurantId)
 
-        if (restaurant != null) {
-            return ResponseEntity.ok(restaurant.toV1())
-        }
-
-        return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(restaurant.toV1())
     }
 }
