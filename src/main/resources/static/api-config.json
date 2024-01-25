@@ -1,0 +1,11 @@
+{
+  "apiPackage": "com.anon.menu.generated.application.web.controllers",
+  "modelPackage": "com.anon.menu.generated.application.web.dto",
+  "dateLibrary": "java8",
+  "additionalProperties": {
+    "hideGenerationTimestamp": true,
+    "useBeanValidation": true,
+    "interfaceOnly": true,
+    "enumPropertyNaming" : "UPPERCASE"
+  }
+}

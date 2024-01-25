@@ -1,0 +1,309 @@
+openapi: 3.0.0
+info:
+  title: "authorization-registry-service"
+  version: 1.0.0
+  description: >-
+    Business management service.
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      description: Create user
+      operationId: create
+      requestBody:
+        required: true
+        content:
+          application/vnd.anon_user_v1+json:
+            schema:
+              $ref: '#/components/schemas/UserV1'
+      responses:
+        204:
+          description: User created with successfully
+        400:
+          description: Invalid Field
+          content:
+            application/vnd.anon_error_v1+json:
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+    get:
+      tags:
+        - user
+      description: Find user by access token
+      operationId: find
+      security:
+        - CustomerAuth: [ ]
+      responses:
+        200:
+          description: User found successfully
+          content:
+            application/vnd.anon_user_v1+json:
+              schema:
+                $ref: '#/components/schemas/UserResponseV1'
+        404:
+          description: User not found
+          content:
+            application/vnd.anon_error_v1.json:
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+  /login:
+    post:
+      tags:
+        - authentication
+      description: Authenticate user
+      operationId: authenticate
+      requestBody:
+        required: true
+        content:
+          application/vnd.anon_auth_v1+json:
+            schema:
+              $ref: '#/components/schemas/LoginV1'
+      responses:
+        200:
+          description: User authenticated successfully
+          content:
+            application/vnd.anon_auth_v1+json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationV1'
+        404:
+          description: User not found
+          content:
+            application/vnd.anon_error_v1+json:
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+        403:
+          description: Invalid password
+          content:
+            application/vnd.anon_error_v1+json:
+              schema:
+                $ref: '#/components/schemas/ErrorV1'
+
+  /restaurant:
+    post:
+      tags:
+        - restaurant
+      description: Create a restaurant
+      operationId: create
+      requestBody:
+        required: true
+        content:
+          application/vnd.anon_restaurant_v1+json:
+            schema:
+              $ref: '#/components/schemas/RestaurantV1'
+      responses:
+        200:
+          description: Restaurant created successfully
+          content:
+            application/vnd.anon_auth_v1+json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationV1'
+  /restaurant/{restaurant_id}:
+    get:
+      tags:
+        - restaurant
+      description: Find a restaurant
+      operationId: findById
+      parameters:
+        - name: restaurant_id
+          in: path
+          description: Id of a specific restaurant
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Restaurant created successfully
+          content:
+            application/vnd.anon_restaurant_v1+json:
+              schema:
+                $ref: '#/components/schemas/RestaurantResponseV1'
+
+  /item/{restaurant_id}:
+    post:
+      tags:
+        - item
+      description: create a item
+      operationId: create
+      parameters:
+        - name: restaurant_id
+          in: path
+          description: Id of a specific restaurant
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/vnd.anon_item_v1+json:
+            schema:
+              $ref: '#/components/schemas/ItemV1'
+      responses:
+        204:
+          description: Item created successfully
+
+
+components:
+  schemas:
+    RestaurantV1:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        delivery_fee:
+          type: BigDecimal
+      required:
+        - name
+        - email
+        - phone
+        - address
+        - delivery_fee
+
+    RestaurantResponseV1:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        delivery_fee:
+          type: BigDecimal
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemResponseV1'
+      required:
+        - name
+        - email
+        - phone
+        - address
+        - delivery_fee
+        - items
+
+    ItemResponseV1:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: BigDecimal
+        category:
+          $ref: '#/components/schemas/CategoryV1'
+      required:
+        - name
+        - description
+        - price
+
+    CategoryV1:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+
+    ItemV1:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: BigDecimal
+        category_id:
+          type: string
+      required:
+        - name
+        - description
+        - price
+        - restaurant_id
+    AuthenticationV1:
+      type: object
+      properties:
+        user_id:
+          type: string
+        name:
+          type: string
+        access_token:
+          type: string
+      required:
+        - user_id
+        - name
+        - access_token
+
+    LoginV1:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    UserV1:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+        - phone
+        - email
+        - password
+
+    UserResponseV1:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+      required:
+        - name
+        - phone
+        - email
+
+    ErrorV1:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+      required:
+        - type
+        - message
+
+  securitySchemes:
+    CustomerAuth:
+      type: http
+      scheme: bearer
+    ServiceAuth:
+      type: apiKey
+      name: Authorization
+      in: header

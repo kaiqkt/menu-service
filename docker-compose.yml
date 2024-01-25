@@ -1,0 +1,19 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: menu_db
+    volumes:
+      - ./src/main/resources/db/migration/V1__23012024.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/data/db
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres:
+    driver: local

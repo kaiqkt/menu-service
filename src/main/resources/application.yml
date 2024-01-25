@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/menu_db
+    username: admin
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  hibernate:
+    ddl-auto: validate
+
+auth-signing-secret: secret
+access-token-expiration: 2
