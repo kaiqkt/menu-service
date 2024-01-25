@@ -2,12 +2,10 @@ server:
   port: 8080
 
 spring:
-  profiles:
-    active: test
   datasource:
-    url: jdbc:postgresql://localhost:5432/menu_db
-    username: admin
-    password: admin
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     properties:
       hibernate:
@@ -15,7 +13,7 @@ spring:
   hibernate:
     ddl-auto: validate
 
-auth-signing-secret: secret
+auth-signing-secret: ${CUSTOMER_SECRET}
 access-token-expiration: 2
 
 springdoc:

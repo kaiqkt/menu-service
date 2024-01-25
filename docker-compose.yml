@@ -18,8 +18,17 @@ services:
       - postgres
     container_name: menu-service
     image: menu-service
+    environment:
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/menu_db
+      POSTGRES_USERNAME: admin
+      POSTGRES_PASSWORD: admin
+      CUSTOMER_SECRET: secret
     ports:
       - "8080:8080"
+
+networks:
+  service-network:
+    driver: bridge
 
 volumes:
   postgres:
